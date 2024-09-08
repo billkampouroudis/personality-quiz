@@ -56,6 +56,7 @@ const QuizForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let pointsUpdated = false;
 
     // TODO: Add validation and prevent submission if form has errors
 
@@ -68,6 +69,7 @@ const QuizForm = () => {
         // return;
         continue;
       }
+      pointsUpdated = true;
 
       const questionId = _field.name.split("_")[1];
       const score =
@@ -78,6 +80,11 @@ const QuizForm = () => {
         const points = score[key];
         results[key.toLowerCase()] += points;
       }
+    }
+
+    if (!pointsUpdated) {
+      alert("Please answer some questions 😑");
+      return;
     }
 
     let maxKey = Object.keys(results)[0];

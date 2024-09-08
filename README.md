@@ -1,3 +1,18 @@
+# What is this project about?
+
+This project was created in order to help young people, or anyone in general, that wants to know their personality type
+in order to choose the most suited carrer path.
+
+It is a small quiz that based on the answers that the user gives, in the end, shows the most dominant personality type
+of the 6 that exist. It uses the [Holland's Codes Theory](https://www.mindtools.com/arnm9dv/hollands-codes) so there are 6 personality types:
+
+1. Realistic
+2. Investigative
+3. Artistic
+4. Social
+5. Enterprising
+6. Conventional
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

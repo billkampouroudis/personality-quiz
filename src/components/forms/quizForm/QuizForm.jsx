@@ -111,12 +111,15 @@ const QuizForm = () => {
   };
 
   return (
-    <form ref={formRef}>
-      {renderQuestions()}
-      <button onClick={handleSubmit} className={styles.submitButton}>
-        Submit
-      </button>
-    </form>
+    <>
+      <h1>Personality Quiz</h1>
+      <form ref={formRef}>
+        {renderQuestions()}
+        <button onClick={handleSubmit} className={styles.submitButton}>
+          Submit
+        </button>
+      </form>
+    </>
   );
 };
 

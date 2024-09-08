@@ -1,0 +1,50 @@
+.question {
+  margin-bottom: 12px;
+
+  .questionText {
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: inline-block;
+  }
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+
+  .optionText {
+    display: inline-block;
+    cursor: pointer;
+  }
+}
+
+.submitButton {
+  background-color: #00b4d8;
+  color: #fff;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+input[type="radio"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 1px solid #00b4d8;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  margin-right: 10px; /* Space between radio and label */
+}
+
+input[type="radio"]:checked {
+  background-color: #00b4d8;
+}

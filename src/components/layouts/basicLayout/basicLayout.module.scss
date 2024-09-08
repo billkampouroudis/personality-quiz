@@ -1,0 +1,20 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+}
+.outerWrapper {
+  background-color: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  min-height: 100vh;
+
+  main {
+    background-color: #fff;
+    max-width: 600px;
+    padding: 32px;
+    border-radius: 8px;
+  }
+}

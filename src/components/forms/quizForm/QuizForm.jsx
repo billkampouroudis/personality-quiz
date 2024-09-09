@@ -69,12 +69,18 @@ const QuizForm = () => {
         // return;
         continue;
       }
-      pointsUpdated = true;
 
       const questionId = _field.name.split("_")[1];
       const score =
         questions.find((q) => q.id == questionId).options[_field.value].score ||
         {};
+
+      // If the current answer does not add points to any type, continue to the next one.
+      if (isEmptyObject(score)) {
+        continue;
+      }
+
+      pointsUpdated = true;
 
       for (let key in score) {
         const points = score[key];
@@ -83,21 +89,26 @@ const QuizForm = () => {
     }
 
     if (!pointsUpdated) {
-      alert("Please answer some questions 😑");
+      alert("Please answer some more questions to get a result 😊");
       return;
     }
 
+    // Find dominant personality type(s)
     let maxKey = Object.keys(results)[0];
+    let dominantTypes = [];
     for (let key in results) {
       if (results[key] > results[maxKey]) {
         maxKey = key;
+        dominantTypes = [maxKey];
+      } else if (results[key] === results[maxKey]) {
+        dominantTypes.push(key);
       }
     }
 
     // Show user message
     alert(`
-    Your personality type is
-        ${maxKey.toUpperCase()}
+    Your personality is
+        ${dominantTypes.join(", ").toUpperCase()}
     Detailed results
         Realistic: ${results.realistic}
         Investigative: ${results.investigative}

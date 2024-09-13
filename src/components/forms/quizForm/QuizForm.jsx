@@ -3,7 +3,7 @@ import styles from "./quizForm.module.scss";
 import defaultFields from "./defaultFields";
 import { isEmptyObject } from "../../../helpers/misc/is";
 import { getFieldsAfterChange } from "../../../helpers/forms";
-import questions from "./questions";
+import questions, { choices } from "./questions";
 
 const defaultResults = {
   realistic: 0,
@@ -54,37 +54,51 @@ const QuizForm = () => {
     ));
   };
 
+  // Finds the points of the answer that the user gave for a specific question
+  const findScore = (field) => {
+    const questionId = field.name.split("_")[1];
+
+    if (!questions.find((q) => q.id == questionId)) {
+      return {};
+    }
+
+    const category = questions.find((q) => q.id == questionId).category;
+    const points = choices[field.value].score; // Get the points that should be added to the category
+
+    if (category && points >= 0) {
+      return { [category]: points };
+    }
+
+    return {};
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    let pointsUpdated = false;
-
-    // TODO: Add validation and prevent submission if form has errors
+    let pointsUpdated = false; // Flag to know if
 
     for (let key in fields) {
       const _field = fields[key];
 
-      // If a question is not answered just ignore it
+      // If a question is not answered just ignore it and continue to the next one
       if (_field.value == null) {
-        // alert("Please answer all questions.");
-        // return;
         continue;
       }
 
-      const questionId = _field.name.split("_")[1];
-      const score =
-        questions.find((q) => q.id == questionId).options[_field.value].score ||
-        {};
+      const score = findScore(_field);
 
       // If the current answer does not add points to any type, continue to the next one.
       if (isEmptyObject(score)) {
         continue;
       }
 
-      pointsUpdated = true;
-
       for (let key in score) {
         const points = score[key];
         results[key.toLowerCase()] += points;
+      }
+
+      // If we reach this step, we know that some points were added to a certain type
+      if (!pointsUpdated) {
+        pointsUpdated = true;
       }
     }
 
@@ -95,7 +109,7 @@ const QuizForm = () => {
 
     // Find dominant personality type(s)
     let maxKey = Object.keys(results)[0];
-    let dominantTypes = [];
+    let dominantTypes = []; // There can be more than one dominant type (have the same score).
     for (let key in results) {
       if (results[key] > results[maxKey]) {
         maxKey = key;
@@ -106,6 +120,8 @@ const QuizForm = () => {
     }
 
     // Show user message
+    console.log(results);
+
     alert(`
     Your personality is
         ${dominantTypes.join(", ").toUpperCase()}
@@ -117,15 +133,18 @@ const QuizForm = () => {
         Enterprising: ${results.enterprising}
         Conventional: ${results.conventional}
     `);
-    console.log(results);
 
     // Reset results but don't reset the form so the user can check the answers even after submission
     results = { ...defaultResults };
+  };
+
+  const handleClear = (e) => {
+    e.preventDefault();
 
     // Clear selected data
-    // const form = formRef.current;
-    // form.reset();
-    // setFields(defaultFields);
+    const form = formRef.current;
+    form.reset();
+    setFields(defaultFields);
   };
 
   return (
@@ -135,6 +154,9 @@ const QuizForm = () => {
         {renderQuestions()}
         <button onClick={handleSubmit} className={styles.submitButton}>
           Submit
+        </button>
+        <button onClick={handleClear} className={styles.clearButton}>
+          Clear
         </button>
       </form>
     </>

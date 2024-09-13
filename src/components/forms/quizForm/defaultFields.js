@@ -1,4 +1,4 @@
-import questions from "./questions";
+import questions, { choices } from "./questions";
 
 const defaultFields = {
   // Sample field
@@ -27,9 +27,9 @@ for (const [index, question] of questions.entries()) {
   };
 
   // Add options to the current field
-  for (let [index, option] of question.options.entries()) {
+  for (let [index, option] of choices.entries()) {
     defaultFields[questionName].options.push({
-      id: `option_${option.id}`,
+      id: `option_${option.id}_${questionName}`,
       label: option.label,
       value: index,
     });
